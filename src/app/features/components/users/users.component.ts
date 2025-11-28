@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExampleService } from '../../../core/services/example.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Componente para mostrar y gestionar usuarios
@@ -8,7 +9,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
   selector: 'app-users',
-  imports: [CommonModule], // CommonModule proporciona directivas como *ngFor, *ngIf, pipes, etc.
+  imports: [CommonModule, FormsModule], // FormsModule para usar ngModel en formularios
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -24,6 +25,30 @@ export class UsersComponent implements OnInit {
   
   // Variable para almacenar mensajes de error
   error: string = '';
+
+  // Variables para el modal de formulario
+  mostrarFormulario: boolean = false;
+  modoEdicion: boolean = false;
+  
+  // Modelo del formulario
+  formularioUsuario: any = {
+    name: '',
+    username: '',
+    email: '',
+    phone: '',
+    website: '',
+    address: {
+      street: '',
+      suite: '',
+      city: '',
+      zipcode: ''
+    },
+    company: {
+      name: '',
+      catchPhrase: '',
+      bs: ''
+    }
+  };
 
   /**
    * Constructor del componente
@@ -180,5 +205,86 @@ export class UsersComponent implements OnInit {
    */
   limpiarSeleccion(): void {
     this.usuarioSeleccionado = null;
+  }
+
+  /**
+   * Abre el modal de formulario para crear un nuevo usuario
+   */
+  abrirFormularioCrear(): void {
+    this.modoEdicion = false;
+    this.resetFormulario();
+    this.mostrarFormulario = true;
+  }
+
+  /**
+   * Abre el modal de formulario para editar un usuario existente
+   * @param usuario - Usuario a editar
+   */
+  abrirFormularioEditar(usuario: any): void {
+    this.modoEdicion = true;
+    this.formularioUsuario = {
+      id: usuario.id,
+      name: usuario.name,
+      username: usuario.username,
+      email: usuario.email,
+      phone: usuario.phone,
+      website: usuario.website,
+      address: {
+        street: usuario.address?.street || '',
+        suite: usuario.address?.suite || '',
+        city: usuario.address?.city || '',
+        zipcode: usuario.address?.zipcode || ''
+      },
+      company: {
+        name: usuario.company?.name || '',
+        catchPhrase: usuario.company?.catchPhrase || '',
+        bs: usuario.company?.bs || ''
+      }
+    };
+    this.mostrarFormulario = true;
+  }
+
+  /**
+   * Cierra el modal de formulario
+   */
+  cerrarFormulario(): void {
+    this.mostrarFormulario = false;
+    this.resetFormulario();
+  }
+
+  /**
+   * Resetea el formulario a sus valores por defecto
+   */
+  resetFormulario(): void {
+    this.formularioUsuario = {
+      name: '',
+      username: '',
+      email: '',
+      phone: '',
+      website: '',
+      address: {
+        street: '',
+        suite: '',
+        city: '',
+        zipcode: ''
+      },
+      company: {
+        name: '',
+        catchPhrase: '',
+        bs: ''
+      }
+    };
+  }
+
+  /**
+   * Guarda el usuario (crear o actualizar según el modo)
+   */
+  guardarUsuario(): void {
+    if (this.modoEdicion) {
+      this.actualizarUsuario(this.formularioUsuario.id, this.formularioUsuario);
+    } else {
+      this.crearUsuario(this.formularioUsuario);
+    }
+    this.cerrarFormulario();
   }
 }

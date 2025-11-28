@@ -6,10 +6,18 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 h1 {
   color: #333;
-  text-align: center;
-  margin-bottom: 30px;
+  margin: 0;
 }
 
 h2 {
@@ -95,6 +103,21 @@ button {
   transition: background-color 0.3s;
 }
 
+.btn-crear {
+  background-color: #10b981;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.btn-crear:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.4);
+}
+
 .btn-view {
   background-color: #2563eb;
   color: white;
@@ -102,6 +125,15 @@ button {
 
 .btn-view:hover {
   background-color: #1d4ed8;
+}
+
+.btn-edit {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #d97706;
 }
 
 .btn-delete {
@@ -313,8 +345,111 @@ button {
   display: none;
 }
 
+/* ========================================
+   FORMULARIO
+======================================== */
+
+.form-modal {
+  max-width: 800px;
+}
+
+.form-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #2563eb;
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+.form-section h3 {
+  color: #1e40af;
+  font-size: 18px;
+  margin: 0 0 15px 0;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.form-group input {
+  padding: 10px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.btn-guardar {
+  background-color: #10b981;
+  color: white;
+  padding: 10px 24px;
+  font-weight: 600;
+}
+
+.btn-guardar:hover {
+  background-color: #059669;
+}
+
+.btn-cancelar {
+  background-color: #6b7280;
+  color: white;
+  padding: 10px 24px;
+}
+
+.btn-cancelar:hover {
+  background-color: #4b5563;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-section h1 {
+    text-align: center;
+  }
+
+  .btn-crear {
+    width: 100%;
+  }
+
   .user-card {
     flex-direction: column;
     align-items: flex-start;
@@ -354,6 +489,15 @@ button {
 
   .detail-section h3 {
     font-size: 16px;
+  }
+
+  /* Formulario responsive */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-section {
+    padding: 15px;
   }
 }
 

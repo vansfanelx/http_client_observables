@@ -1,6 +1,11 @@
 <!-- Contenedor principal del componente de usuarios -->
 <div class="users-container">
-  <h1>Gestión de Usuarios</h1>
+  <div class="header-section">
+    <h1>Gestión de Usuarios</h1>
+    <button (click)="abrirFormularioCrear()" class="btn-crear">
+      ➕ Crear Usuario
+    </button>
+  </div>
 
   <!-- Mensaje de error si ocurre algún problema -->
   <div *ngIf="error" class="error-message">
@@ -27,6 +32,7 @@
       
       <div class="user-actions">
         <button (click)="cargarUsuario(usuario.id)" class="btn-view">Ver Detalles</button>
+        <button (click)="abrirFormularioEditar(usuario)" class="btn-edit">Editar</button>
         <button (click)="eliminarUsuario(usuario.id)" class="btn-delete">Eliminar</button>
       </div>
     </div>
@@ -122,6 +128,172 @@
     <!-- Footer del Modal -->
     <div class="modal-footer">
       <button (click)="limpiarSeleccion()" class="btn-close">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Formulario (Crear/Editar Usuario) -->
+<div *ngIf="mostrarFormulario" class="modal-overlay" (click)="cerrarFormulario()">
+  <div class="modal-container form-modal" (click)="$event.stopPropagation()">
+    <!-- Header del Modal -->
+    <div class="modal-header">
+      <h2>{{ modoEdicion ? '✏️ Editar Usuario' : '➕ Crear Nuevo Usuario' }}</h2>
+      <button (click)="cerrarFormulario()" class="btn-close-modal" title="Cerrar">✖</button>
+    </div>
+    
+    <!-- Formulario -->
+    <div class="modal-body">
+      <form (ngSubmit)="guardarUsuario()" #userForm="ngForm">
+        
+        <!-- Información Personal -->
+        <div class="form-section">
+          <h3>📋 Información Personal</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Nombre Completo *</label>
+              <input 
+                type="text" 
+                id="name" 
+                [(ngModel)]="formularioUsuario.name" 
+                name="name" 
+                required
+                placeholder="Ej: Juan Pérez">
+            </div>
+            
+            <div class="form-group">
+              <label for="username">Usuario *</label>
+              <input 
+                type="text" 
+                id="username" 
+                [(ngModel)]="formularioUsuario.username" 
+                name="username" 
+                required
+                placeholder="Ej: juanp">
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input 
+                type="email" 
+                id="email" 
+                [(ngModel)]="formularioUsuario.email" 
+                name="email" 
+                required
+                placeholder="Ej: juan@example.com">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Teléfono</label>
+              <input 
+                type="text" 
+                id="phone" 
+                [(ngModel)]="formularioUsuario.phone" 
+                name="phone"
+                placeholder="Ej: 1-770-736-8031">
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="website">Sitio Web</label>
+              <input 
+                type="text" 
+                id="website" 
+                [(ngModel)]="formularioUsuario.website" 
+                name="website"
+                placeholder="Ej: ejemplo.com">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-section">
+          <h3>📍 Dirección</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="street">Calle</label>
+              <input 
+                type="text" 
+                id="street" 
+                [(ngModel)]="formularioUsuario.address.street" 
+                name="street"
+                placeholder="Ej: Kulas Light">
+            </div>
+            
+            <div class="form-group">
+              <label for="suite">Suite/Apt</label>
+              <input 
+                type="text" 
+                id="suite" 
+                [(ngModel)]="formularioUsuario.address.suite" 
+                name="suite"
+                placeholder="Ej: Apt. 556">
+            </div>
+            
+            <div class="form-group">
+              <label for="city">Ciudad</label>
+              <input 
+                type="text" 
+                id="city" 
+                [(ngModel)]="formularioUsuario.address.city" 
+                name="city"
+                placeholder="Ej: Gwenborough">
+            </div>
+            
+            <div class="form-group">
+              <label for="zipcode">Código Postal</label>
+              <input 
+                type="text" 
+                id="zipcode" 
+                [(ngModel)]="formularioUsuario.address.zipcode" 
+                name="zipcode"
+                placeholder="Ej: 92998-3874">
+            </div>
+          </div>
+        </div>
+
+        <!-- Empresa -->
+        <div class="form-section">
+          <h3>🏢 Empresa</h3>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="companyName">Nombre de la Empresa</label>
+              <input 
+                type="text" 
+                id="companyName" 
+                [(ngModel)]="formularioUsuario.company.name" 
+                name="companyName"
+                placeholder="Ej: Romaguera-Crona">
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="catchPhrase">Frase Corporativa</label>
+              <input 
+                type="text" 
+                id="catchPhrase" 
+                [(ngModel)]="formularioUsuario.company.catchPhrase" 
+                name="catchPhrase"
+                placeholder="Ej: Multi-layered client-server neural-net">
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="bs">Business Strategy</label>
+              <input 
+                type="text" 
+                id="bs" 
+                [(ngModel)]="formularioUsuario.company.bs" 
+                name="bs"
+                placeholder="Ej: harness real-time e-markets">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Footer del Modal -->
+    <div class="modal-footer">
+      <button (click)="cerrarFormulario()" type="button" class="btn-cancelar">Cancelar</button>
+      <button (click)="guardarUsuario()" type="button" class="btn-guardar">
+        {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+      </button>
     </div>
   </div>
 </div>

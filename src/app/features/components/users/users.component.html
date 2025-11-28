@@ -32,34 +32,96 @@
     </div>
   </div>
 
-  <!-- Mensaje cuando no hay usuarios -->
-  <div *ngIf="!cargando && usuarios.length === 0" class="no-users">
-    <p>No hay usuarios para mostrar</p>
   </div>
 
-  <!-- Detalles del usuario seleccionado -->
-  <div *ngIf="usuarioSeleccionado" class="user-details">
-    <h2>Detalles del Usuario</h2>
-    <button (click)="limpiarSeleccion()" class="btn-close">✖ Cerrar</button>
+<!-- Modal de Detalles del Usuario -->
+<div *ngIf="usuarioSeleccionado" class="modal-overlay" (click)="limpiarSeleccion()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header del Modal -->
+    <div class="modal-header">
+      <h2>👤 Detalles del Usuario</h2>
+      <button (click)="limpiarSeleccion()" class="btn-close-modal" title="Cerrar">✖</button>
+    </div>
     
-    <div class="details-content">
-      <p><strong>ID:</strong> {{ usuarioSeleccionado.id }}</p>
-      <p><strong>Nombre:</strong> {{ usuarioSeleccionado.name }}</p>
-      <p><strong>Usuario:</strong> {{ usuarioSeleccionado.username }}</p>
-      <p><strong>Email:</strong> {{ usuarioSeleccionado.email }}</p>
-      <p><strong>Teléfono:</strong> {{ usuarioSeleccionado.phone }}</p>
-      <p><strong>Sitio Web:</strong> {{ usuarioSeleccionado.website }}</p>
+    <!-- Contenido del Modal -->
+    <div class="modal-body">
+      <!-- Información Personal -->
+      <div class="detail-section">
+        <h3>📋 Información Personal</h3>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">ID:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.id }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Nombre:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.name }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Usuario:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.username }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.email }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Teléfono:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.phone }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Sitio Web:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.website }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="detail-section">
+        <h3>📍 Dirección</h3>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Calle:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.address?.street }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Suite:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.address?.suite }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Ciudad:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.address?.city }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Código Postal:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.address?.zipcode }}</span>
+          </div>
+        </div>
+      </div>
       
-      <h3>Dirección</h3>
-      <p><strong>Calle:</strong> {{ usuarioSeleccionado.address?.street }}</p>
-      <p><strong>Suite:</strong> {{ usuarioSeleccionado.address?.suite }}</p>
-      <p><strong>Ciudad:</strong> {{ usuarioSeleccionado.address?.city }}</p>
-      <p><strong>Código Postal:</strong> {{ usuarioSeleccionado.address?.zipcode }}</p>
-      
-      <h3>Empresa</h3>
-      <p><strong>Nombre:</strong> {{ usuarioSeleccionado.company?.name }}</p>
-      <p><strong>Frase:</strong> {{ usuarioSeleccionado.company?.catchPhrase }}</p>
-      <p><strong>BS:</strong> {{ usuarioSeleccionado.company?.bs }}</p>
+      <!-- Empresa -->
+      <div class="detail-section">
+        <h3>🏢 Empresa</h3>
+        <div class="detail-grid">
+          <div class="detail-item full-width">
+            <span class="detail-label">Nombre:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.company?.name }}</span>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">Frase:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.company?.catchPhrase }}</span>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">BS:</span>
+            <span class="detail-value">{{ usuarioSeleccionado.company?.bs }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer del Modal -->
+    <div class="modal-footer">
+      <button (click)="limpiarSeleccion()" class="btn-close">Cerrar</button>
     </div>
   </div>
 </div>

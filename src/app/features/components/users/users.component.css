@@ -1,0 +1,185 @@
+/* Contenedor principal */
+.users-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #444;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+/* Mensajes de error */
+.error-message {
+  background-color: #fee;
+  border-left: 4px solid #c33;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.error-message p {
+  color: #c33;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Indicador de carga */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+/* Lista de usuarios */
+.users-list {
+  margin-bottom: 30px;
+}
+
+/* Tarjeta de usuario */
+.user-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-info h3 {
+  margin: 0 0 10px 0;
+  color: #2563eb;
+  font-size: 20px;
+}
+
+.user-info p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Acciones del usuario */
+.user-actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+/* Botones */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-view {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-view:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-delete {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
+
+.btn-close {
+  background-color: #6b7280;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.btn-close:hover {
+  background-color: #4b5563;
+}
+
+/* Mensaje sin usuarios */
+.no-users {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 18px;
+}
+
+/* Detalles del usuario */
+.user-details {
+  background-color: #f9fafb;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.details-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.details-content h3 {
+  color: #2563eb;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 5px;
+}
+
+.details-content p {
+  margin: 8px 0;
+  color: #374151;
+  font-size: 15px;
+}
+
+.details-content strong {
+  color: #1f2937;
+  margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-actions {
+    flex-direction: row;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .user-actions button {
+    flex: 1;
+  }
+}

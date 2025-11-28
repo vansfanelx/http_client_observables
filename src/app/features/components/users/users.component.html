@@ -1,1 +1,65 @@
-<p>users works!</p>
+<!-- Contenedor principal del componente de usuarios -->
+<div class="users-container">
+  <h1>Gestión de Usuarios</h1>
+
+  <!-- Mensaje de error si ocurre algún problema -->
+  <div *ngIf="error" class="error-message">
+    <p>⚠️ {{ error }}</p>
+  </div>
+
+  <!-- Indicador de carga mientras se obtienen los datos -->
+  <div *ngIf="cargando" class="loading">
+    <p>⏳ Cargando datos...</p>
+  </div>
+
+  <!-- Lista de usuarios -->
+  <div *ngIf="!cargando && usuarios.length > 0" class="users-list">
+    <h2>Lista de Usuarios ({{ usuarios.length }})</h2>
+    
+    <div class="user-card" *ngFor="let usuario of usuarios">
+      <div class="user-info">
+        <h3>{{ usuario.name }}</h3>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Teléfono:</strong> {{ usuario.phone }}</p>
+        <p><strong>Ciudad:</strong> {{ usuario.address?.city }}</p>
+        <p><strong>Empresa:</strong> {{ usuario.company?.name }}</p>
+      </div>
+      
+      <div class="user-actions">
+        <button (click)="cargarUsuario(usuario.id)" class="btn-view">Ver Detalles</button>
+        <button (click)="eliminarUsuario(usuario.id)" class="btn-delete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay usuarios -->
+  <div *ngIf="!cargando && usuarios.length === 0" class="no-users">
+    <p>No hay usuarios para mostrar</p>
+  </div>
+
+  <!-- Detalles del usuario seleccionado -->
+  <div *ngIf="usuarioSeleccionado" class="user-details">
+    <h2>Detalles del Usuario</h2>
+    <button (click)="limpiarSeleccion()" class="btn-close">✖ Cerrar</button>
+    
+    <div class="details-content">
+      <p><strong>ID:</strong> {{ usuarioSeleccionado.id }}</p>
+      <p><strong>Nombre:</strong> {{ usuarioSeleccionado.name }}</p>
+      <p><strong>Usuario:</strong> {{ usuarioSeleccionado.username }}</p>
+      <p><strong>Email:</strong> {{ usuarioSeleccionado.email }}</p>
+      <p><strong>Teléfono:</strong> {{ usuarioSeleccionado.phone }}</p>
+      <p><strong>Sitio Web:</strong> {{ usuarioSeleccionado.website }}</p>
+      
+      <h3>Dirección</h3>
+      <p><strong>Calle:</strong> {{ usuarioSeleccionado.address?.street }}</p>
+      <p><strong>Suite:</strong> {{ usuarioSeleccionado.address?.suite }}</p>
+      <p><strong>Ciudad:</strong> {{ usuarioSeleccionado.address?.city }}</p>
+      <p><strong>Código Postal:</strong> {{ usuarioSeleccionado.address?.zipcode }}</p>
+      
+      <h3>Empresa</h3>
+      <p><strong>Nombre:</strong> {{ usuarioSeleccionado.company?.name }}</p>
+      <p><strong>Frase:</strong> {{ usuarioSeleccionado.company?.catchPhrase }}</p>
+      <p><strong>BS:</strong> {{ usuarioSeleccionado.company?.bs }}</p>
+    </div>
+  </div>
+</div>

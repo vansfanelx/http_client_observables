@@ -1,23 +1,32 @@
 /* Contenedor principal */
 .users-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px 20px;
 }
 
 .header-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  color: #333;
+  color: #1f2937;
   margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 h2 {
@@ -28,25 +37,48 @@ h2 {
 
 /* Mensajes de error */
 .error-message {
-  background-color: #fee;
-  border-left: 4px solid #c33;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 4px;
+  background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+  border-left: 4px solid #ef4444;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1);
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
 }
 
 .error-message p {
-  color: #c33;
+  color: #dc2626;
   margin: 0;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 /* Indicador de carga */
 .loading {
   text-align: center;
-  padding: 40px;
+  padding: 60px;
   font-size: 18px;
-  color: #666;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.loading p::before {
+  content: "⏳ ";
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Lista de usuarios */
@@ -54,35 +86,70 @@ h2 {
   margin-bottom: 30px;
 }
 
+.users-list h2 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
 /* Tarjeta de usuario */
 .user-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: none;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.user-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
 }
 
 .user-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.user-card:hover::before {
+  transform: scaleY(1);
 }
 
 .user-info h3 {
-  margin: 0 0 10px 0;
-  color: #2563eb;
-  font-size: 20px;
+  margin: 0 0 12px 0;
+  color: #1f2937;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .user-info p {
-  margin: 5px 0;
-  color: #555;
+  margin: 8px 0;
+  color: #6b7280;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-info p strong {
+  color: #374151;
+  font-weight: 600;
+  min-width: 80px;
 }
 
 /* Acciones del usuario */
@@ -94,73 +161,104 @@ h2 {
 
 /* Botones */
 button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn-crear {
-  background-color: #10b981;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 16px;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  letter-spacing: 0.5px;
 }
 
 .btn-crear:hover {
-  background-color: #059669;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
 }
 
 .btn-view {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .btn-view:hover {
-  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
 .btn-edit {
-  background-color: #f59e0b;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
 .btn-edit:hover {
-  background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 .btn-delete {
-  background-color: #dc2626;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 .btn-delete:hover {
-  background-color: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
 .btn-close {
-  background-color: #6b7280;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
   color: white;
   margin-bottom: 15px;
 }
 
 .btn-close:hover {
-  background-color: #4b5563;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
 }
 
 /* Mensaje sin usuarios */
 .no-users {
   text-align: center;
-  padding: 40px;
-  color: #999;
-  font-size: 18px;
+  padding: 60px;
+  color: white;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
 /* ========================================
@@ -174,12 +272,14 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease;
+  padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -218,39 +318,42 @@ button {
 
 /* Header del modal */
 .modal-header {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 20px 25px;
+  padding: 25px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #1e40af;
+  border-bottom: none;
 }
 
 .modal-header h2 {
   margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-close-modal {
   background: rgba(255, 255, 255, 0.2);
   color: white;
-  border: none;
-  width: 36px;
-  height: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
 }
 
 .btn-close-modal:hover {
   background: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Cuerpo del modal */
@@ -263,10 +366,17 @@ button {
 /* Secciones de detalles */
 .detail-section {
   margin-bottom: 25px;
-  background-color: #f9fafb;
-  padding: 20px;
-  border-radius: 8px;
-  border-left: 4px solid #2563eb;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 5px solid #667eea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.detail-section:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .detail-section:last-child {
@@ -274,10 +384,11 @@ button {
 }
 
 .detail-section h3 {
-  color: #1e40af;
-  font-size: 18px;
-  margin: 0 0 15px 0;
-  font-weight: 600;
+  color: #667eea;
+  font-size: 20px;
+  margin: 0 0 18px 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* Grid de detalles */
@@ -309,31 +420,40 @@ button {
   font-size: 15px;
   color: #1f2937;
   font-weight: 500;
-  padding: 8px 12px;
-  background-color: white;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.detail-value:hover {
+  border-color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
 }
 
 /* Footer del modal */
 .modal-footer {
-  padding: 20px 25px;
-  background-color: #f3f4f6;
-  border-top: 1px solid #e5e7eb;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-top: 2px solid #e5e7eb;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
 }
 
 .modal-footer .btn-close {
-  background-color: #6b7280;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
   color: white;
-  padding: 10px 24px;
+  padding: 12px 28px;
   margin: 0;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
 }
 
 .modal-footer .btn-close:hover {
-  background-color: #4b5563;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
 }
 
 /* Detalles del usuario - REMOVIDO (ya no se usa) */
@@ -355,10 +475,11 @@ button {
 
 .form-section {
   margin-bottom: 25px;
-  padding: 20px;
-  background-color: #f9fafb;
-  border-radius: 8px;
-  border-left: 4px solid #2563eb;
+  padding: 25px;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-radius: 12px;
+  border-left: 5px solid #667eea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .form-section:last-child {
@@ -366,10 +487,11 @@ button {
 }
 
 .form-section h3 {
-  color: #1e40af;
-  font-size: 18px;
-  margin: 0 0 15px 0;
-  font-weight: 600;
+  color: #667eea;
+  font-size: 20px;
+  margin: 0 0 18px 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .form-grid {
@@ -390,49 +512,60 @@ button {
 
 .form-group label {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: #374151;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 11px;
 }
 
 .form-group input {
-  padding: 10px 14px;
+  padding: 12px 16px;
   border: 2px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 15px;
   transition: all 0.3s;
   font-family: inherit;
+  background: white;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
 }
 
 .form-group input::placeholder {
   color: #9ca3af;
+  font-style: italic;
 }
 
 .btn-guardar {
-  background-color: #10b981;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  padding: 10px 24px;
-  font-weight: 600;
+  padding: 12px 28px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .btn-guardar:hover {
-  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .btn-cancelar {
-  background-color: #6b7280;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
   color: white;
-  padding: 10px 24px;
+  padding: 12px 28px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
 }
 
 .btn-cancelar:hover {
-  background-color: #4b5563;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
 }
 
 /* Responsive */

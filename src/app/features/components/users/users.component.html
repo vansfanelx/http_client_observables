@@ -1,9 +1,9 @@
 <!-- Contenedor principal del componente de usuarios -->
 <div class="users-container">
   <div class="header-section">
-    <h1>Gestión de Usuarios</h1>
+    <h1>🎯 Gestión de Usuarios</h1>
     <button (click)="abrirFormularioCrear()" class="btn-crear">
-      ➕ Crear Usuario
+      ➕ Nuevo Usuario
     </button>
   </div>
 
@@ -19,21 +19,21 @@
 
   <!-- Lista de usuarios -->
   <div *ngIf="!cargando && usuarios.length > 0" class="users-list">
-    <h2>Lista de Usuarios ({{ usuarios.length }})</h2>
+    <h2>📋 Total de Usuarios: {{ usuarios.length }}</h2>
     
     <div class="user-card" *ngFor="let usuario of usuarios">
       <div class="user-info">
-        <h3>{{ usuario.name }}</h3>
-        <p><strong>Email:</strong> {{ usuario.email }}</p>
-        <p><strong>Teléfono:</strong> {{ usuario.phone }}</p>
-        <p><strong>Ciudad:</strong> {{ usuario.address?.city }}</p>
-        <p><strong>Empresa:</strong> {{ usuario.company?.name }}</p>
+        <h3>👤 {{ usuario.name }}</h3>
+        <p><strong>📧 Email:</strong> {{ usuario.email }}</p>
+        <p><strong>📞 Teléfono:</strong> {{ usuario.phone }}</p>
+        <p><strong>🏙️ Ciudad:</strong> {{ usuario.address?.city }}</p>
+        <p><strong>🏢 Empresa:</strong> {{ usuario.company?.name }}</p>
       </div>
       
       <div class="user-actions">
-        <button (click)="cargarUsuario(usuario.id)" class="btn-view">Ver Detalles</button>
-        <button (click)="abrirFormularioEditar(usuario)" class="btn-edit">Editar</button>
-        <button (click)="eliminarUsuario(usuario.id)" class="btn-delete">Eliminar</button>
+        <button (click)="cargarUsuario(usuario.id)" class="btn-view">👁️ Ver</button>
+        <button (click)="abrirFormularioEditar(usuario)" class="btn-edit">✏️ Editar</button>
+        <button (click)="eliminarUsuario(usuario.id)" class="btn-delete">🗑️ Eliminar</button>
       </div>
     </div>
   </div>

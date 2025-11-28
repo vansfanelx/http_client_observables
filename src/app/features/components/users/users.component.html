@@ -17,24 +17,85 @@
     <p>⏳ Cargando datos...</p>
   </div>
 
-  <!-- Lista de usuarios -->
+  <!-- Lista de usuarios en tabla -->
   <div *ngIf="!cargando && usuarios.length > 0" class="users-list">
-    <h2>📋 Total de Usuarios: {{ usuarios.length }}</h2>
+    <div class="table-header">
+      <h2>📋 Total de Usuarios: {{ usuarios.length }}</h2>
+      <button (click)="cargarUsuarios()" class="btn-refresh" title="Recargar desde API">
+        🔄 Recargar
+      </button>
+    </div>
     
-    <div class="user-card" *ngFor="let usuario of usuarios">
-      <div class="user-info">
-        <h3>👤 {{ usuario.name }}</h3>
-        <p><strong>📧 Email:</strong> {{ usuario.email }}</p>
-        <p><strong>📞 Teléfono:</strong> {{ usuario.phone }}</p>
-        <p><strong>🏙️ Ciudad:</strong> {{ usuario.address?.city }}</p>
-        <p><strong>🏢 Empresa:</strong> {{ usuario.company?.name }}</p>
+    <div class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>👤 Nombre</th>
+            <th>📧 Email</th>
+            <th>📞 Teléfono</th>
+            <th>🏙️ Ciudad</th>
+            <th>🏢 Empresa</th>
+            <th>⚙️ Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuariosPaginados" class="table-row">
+            <td>{{ usuario.id }}</td>
+            <td class="user-name">{{ usuario.name }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.phone }}</td>
+            <td>{{ usuario.address?.city }}</td>
+            <td>{{ usuario.company?.name }}</td>
+            <td class="actions-cell">
+              <div class="table-actions">
+                <button (click)="cargarUsuario(usuario.id)" class="btn-icon btn-view" title="Ver detalles">
+                  👁️
+                </button>
+                <button (click)="abrirFormularioEditar(usuario)" class="btn-icon btn-edit" title="Editar">
+                  ✏️
+                </button>
+                <button (click)="eliminarUsuario(usuario.id)" class="btn-icon btn-delete" title="Eliminar">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination" *ngIf="totalPaginas > 1">
+      <button 
+        class="btn-page" 
+        (click)="paginaAnterior()" 
+        [disabled]="paginaActual === 1">
+        ◀ Anterior
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let pagina of paginas"
+          class="btn-page-number"
+          [class.active]="pagina === paginaActual"
+          (click)="irAPagina(pagina)">
+          {{ pagina }}
+        </button>
       </div>
       
-      <div class="user-actions">
-        <button (click)="cargarUsuario(usuario.id)" class="btn-view">👁️ Ver</button>
-        <button (click)="abrirFormularioEditar(usuario)" class="btn-edit">✏️ Editar</button>
-        <button (click)="eliminarUsuario(usuario.id)" class="btn-delete">🗑️ Eliminar</button>
-      </div>
+      <button 
+        class="btn-page" 
+        (click)="paginaSiguiente()" 
+        [disabled]="paginaActual === totalPaginas">
+        Siguiente ▶
+      </button>
+    </div>
+
+    <div class="pagination-info">
+      Mostrando {{ (paginaActual - 1) * itemsPorPagina + 1 }} - 
+      {{ Math.min(paginaActual * itemsPorPagina, usuarios.length) }} 
+      de {{ usuarios.length }} usuarios
     </div>
   </div>
 

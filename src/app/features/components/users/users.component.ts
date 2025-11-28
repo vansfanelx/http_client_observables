@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './users.component.css'
 })
 export class UsersComponent implements OnInit {
+  // Exponer Math para usar en el template
+  Math = Math;
+  
   // Array que almacena la lista de todos los usuarios
   usuarios: any[] = [];
   
@@ -29,6 +32,11 @@ export class UsersComponent implements OnInit {
   // Variables para el modal de formulario
   mostrarFormulario: boolean = false;
   modoEdicion: boolean = false;
+  
+  // Variables para paginación
+  paginaActual: number = 1;
+  itemsPorPagina: number = 5;
+  totalPaginas: number = 0;
   
   // Modelo del formulario
   formularioUsuario: any = {
@@ -64,7 +72,79 @@ export class UsersComponent implements OnInit {
    */
   ngOnInit(): void {
     console.log('Componente Users cargado correctamente');
-    this.cargarUsuarios();
+    this.cargarUsuariosDesdeLocalStorage();
+  }
+
+  /**
+   * Carga usuarios desde localStorage o desde la API si no existen
+   */
+  cargarUsuariosDesdeLocalStorage(): void {
+    const usuariosGuardados = localStorage.getItem('usuarios');
+    if (usuariosGuardados) {
+      this.usuarios = JSON.parse(usuariosGuardados);
+      this.calcularPaginacion();
+      console.log('Usuarios cargados desde localStorage:', this.usuarios);
+    } else {
+      this.cargarUsuarios();
+    }
+  }
+
+  /**
+   * Guarda los usuarios en localStorage
+   */
+  guardarEnLocalStorage(): void {
+    localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
+    this.calcularPaginacion();
+  }
+
+  /**
+   * Calcula el número total de páginas
+   */
+  calcularPaginacion(): void {
+    this.totalPaginas = Math.ceil(this.usuarios.length / this.itemsPorPagina);
+  }
+
+  /**
+   * Obtiene los usuarios de la página actual
+   */
+  get usuariosPaginados(): any[] {
+    const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+    const fin = inicio + this.itemsPorPagina;
+    return this.usuarios.slice(inicio, fin);
+  }
+
+  /**
+   * Cambia a la página anterior
+   */
+  paginaAnterior(): void {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+    }
+  }
+
+  /**
+   * Cambia a la página siguiente
+   */
+  paginaSiguiente(): void {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+    }
+  }
+
+  /**
+   * Va a una página específica
+   */
+  irAPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
+    }
+  }
+
+  /**
+   * Genera un array de números de página para la navegación
+   */
+  get paginas(): number[] {
+    return Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
   }
 
   /**
@@ -81,7 +161,8 @@ export class UsersComponent implements OnInit {
     this.api.getUsers().subscribe({
       next: (data: any) => {
         this.usuarios = data;
-        console.log('Usuarios cargados:', this.usuarios);
+        this.guardarEnLocalStorage();
+        console.log('Usuarios cargados desde API:', this.usuarios);
         this.cargando = false;
       },
       error: (err) => {
@@ -128,11 +209,18 @@ export class UsersComponent implements OnInit {
     this.cargando = true;
     this.error = '';
     
-    this.api.createUser(nuevoUsuario).subscribe({
+    // Generar ID único para el nuevo usuario
+    const maxId = this.usuarios.length > 0 
+      ? Math.max(...this.usuarios.map(u => u.id)) 
+      : 0;
+    const usuarioConId = { ...nuevoUsuario, id: maxId + 1 };
+    
+    this.api.createUser(usuarioConId).subscribe({
       next: (data: any) => {
         console.log('Usuario creado:', data);
-        // Agregar el nuevo usuario a la lista local
-        this.usuarios.push(data);
+        // Agregar el nuevo usuario a la lista local con el ID generado
+        this.usuarios.push(usuarioConId);
+        this.guardarEnLocalStorage();
         this.cargando = false;
       },
       error: (err) => {
@@ -161,7 +249,8 @@ export class UsersComponent implements OnInit {
         // Actualizar el usuario en la lista local
         const index = this.usuarios.findIndex(u => u.id === id);
         if (index !== -1) {
-          this.usuarios[index] = data;
+          this.usuarios[index] = { ...datosActualizados, id };
+          this.guardarEnLocalStorage();
         }
         this.cargando = false;
       },
@@ -181,6 +270,10 @@ export class UsersComponent implements OnInit {
    * el cambio en la interfaz sin necesidad de recargar todos los datos
    */
   eliminarUsuario(id: number): void {
+    if (!confirm('¿Estás seguro de eliminar este usuario?')) {
+      return;
+    }
+    
     this.cargando = true;
     this.error = '';
     
@@ -189,6 +282,11 @@ export class UsersComponent implements OnInit {
         console.log('Usuario eliminado con ID:', id);
         // Eliminar el usuario de la lista local
         this.usuarios = this.usuarios.filter(u => u.id !== id);
+        this.guardarEnLocalStorage();
+        // Ajustar página si es necesario
+        if (this.usuariosPaginados.length === 0 && this.paginaActual > 1) {
+          this.paginaActual--;
+        }
         this.cargando = false;
       },
       error: (err) => {
